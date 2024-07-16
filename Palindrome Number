@@ -1,0 +1,67 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class PalindromeChecker extends JFrame implements ActionListener {
+
+    private JTextField numberInput;
+    private JButton checkButton;
+    private JLabel resultLabel;
+
+    public PalindromeChecker() {
+        super("Palindrome Checker"); // Set frame title
+
+        // Create UI elements
+        numberInput = new JTextField(10);
+        checkButton = new JButton("Check");
+        resultLabel = new JLabel();
+
+        // Layout
+        JPanel panel = new JPanel(new GridLayout(3, 1));
+        panel.add(new JLabel("Enter a number:"));
+        panel.add(numberInput);
+        panel.add(checkButton);
+
+        // Add panel and button listener
+        add(panel, BorderLayout.CENTER);
+        add(resultLabel, BorderLayout.SOUTH);
+        checkButton.addActionListener(this);
+
+        // Set frame size and visibility
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String numberStr = numberInput.getText();
+        if (numberStr.isEmpty()) {
+            resultLabel.setText("Please enter a number.");
+            return;
+        }
+
+        int number = Integer.parseInt(numberStr);
+        int reversed = reverseNumber(number);
+
+        if (number == reversed) {
+            resultLabel.setText(number + " is a palindrome.");
+        } else {
+            resultLabel.setText(number + " is not a palindrome.");
+        }
+    }
+
+    private int reverseNumber(int number) {
+        int reversed = 0;
+        while (number != 0) {
+            int digit = number % 10;
+            reversed = reversed * 10 + digit;
+            number /= 10;
+        }
+        return reversed;
+    }
+
+    public static void main(String[] args) {
+        new PalindromeChecker();
+    }
+}
